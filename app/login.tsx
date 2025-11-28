@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 100,
     height: 100,
-    top: 150,
+    top: 233,
     left: 20
   },
   glassCard: {

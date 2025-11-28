@@ -38,7 +38,7 @@ export default function SignupScreen() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      router.replace('/(tabs)');
+      router.replace('/onboarding/step1');
     }, 800);
   };
 
@@ -168,20 +168,20 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignItems: 'center',
-    // marginTop: 30,
+    marginTop: 40,
     gap: 12,
     zIndex: 2,
   },
   logo: {
     width: 220,
-    height: 160,
+    height: 200,
   },
   brain: {
     position: "absolute",
     left: 20,
     width: 100,
     height: 100,
-    top: 82,
+    top: 123,
   },
   glassCard: {
     marginHorizontal: 24,
@@ -194,6 +194,7 @@ const styles = StyleSheet.create({
   },
   form: {
     gap: 16,
+    zIndex: 4
   },
   title: {
     fontSize: 28,
