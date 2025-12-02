@@ -30,7 +30,7 @@ export default function LoginScreen() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      router.replace('/(tabs)');
+      router.replace('/home');
     }, 800);
   };
 
@@ -48,12 +48,12 @@ export default function LoginScreen() {
         style={styles.flex}>
         <View style={styles.logoContainer}>
           <Image
-            source={require('../assets/images/logo.png')}
+            source={require('../../assets/images/logo.png')}
             style={styles.logo}
             resizeMode="contain"
           />
           <Image
-            source={require('../assets/images/inspired.png')}
+            source={require('../../assets/images/inspired.png')}
             style={styles.brain}
             resizeMode="contain"
           />
@@ -111,7 +111,7 @@ export default function LoginScreen() {
 
             <TouchableOpacity
               style={styles.secondaryButton}
-              onPress={() => router.push('/signup')}>
+              onPress={() => router.push('/auth/signup')}>
               <Text style={styles.secondaryText}>
                 New to MindMate? <Text style={styles.link}>Create account</Text>
               </Text>

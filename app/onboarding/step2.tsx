@@ -173,7 +173,7 @@ export default function OnboardingStep2() {
         useNativeDriver: true,
       }),
     ]).start(() => {
-      router.push("/onboarding/step1");
+      router.push("/home");
     });
   }}
 >

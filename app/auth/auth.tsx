@@ -20,13 +20,13 @@ export default function AuthScreen() {
           {/* Logo */}
           <View style={styles.logoContainer}>
             <Image
-              source={require("../assets/images/logo.png")}
+              source={require("../../assets/images/logo.png")}
               style={styles.logo}
               resizeMode="contain"
             />
       
             <Image
-              source={require("../assets/images/inlove 2.png")}
+              source={require("../../assets/images/inlove 2.png")}
               style={styles.brain}
               resizeMode="contain"
             />
@@ -42,7 +42,7 @@ export default function AuthScreen() {
             <TouchableOpacity
               style={styles.glassButton}
               activeOpacity={0.85}
-              onPress={() => router.push("/signup")}
+              onPress={() => router.push("/auth/signup")}
             >
               <BlurView intensity={40} tint="light" style={styles.signupButton}>
                 <Text style={styles.buttonText}>Sign Up</Text>
@@ -52,7 +52,7 @@ export default function AuthScreen() {
             <TouchableOpacity
               style={styles.glassButton}
               activeOpacity={0.85}
-              onPress={() => router.push("/login")}
+              onPress={() => router.push("/auth/signup")}
             >
               <BlurView intensity={40} tint="light" style={styles.loginButton}>
                 <Text style={styles.buttonText}>Log In</Text>

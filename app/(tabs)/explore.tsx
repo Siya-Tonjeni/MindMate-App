@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import AuthScreen from "../auth";
+import AuthScreen from "../auth/auth";
 
 export default function TabTwoScreen() {
   return (

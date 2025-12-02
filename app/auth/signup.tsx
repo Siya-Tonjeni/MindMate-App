@@ -56,12 +56,12 @@ export default function SignupScreen() {
         style={styles.flex}>
         <View style={styles.logoContainer}>
           <Image
-            source={require('../assets/images/logo.png')}
+            source={require('../../assets/images/logo.png')}
             style={styles.logo}
             resizeMode="contain"
           />
           <Image
-            source={require('../assets/images/calm.png')}
+            source={require('../../assets/images/calm.png')}
             style={styles.brain}
             resizeMode="contain"
           />
@@ -139,7 +139,7 @@ export default function SignupScreen() {
 
             <TouchableOpacity
               style={styles.secondaryButton}
-              onPress={() => router.push("/login")}
+              onPress={() => router.push("/auth/login")}
               >
               <Text style={styles.secondaryText}>
                 Already have an account? <Text style={styles.link}>Sign in</Text>

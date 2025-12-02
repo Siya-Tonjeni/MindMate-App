@@ -5,8 +5,8 @@ import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function SplashScreen1() {
-  const handleSkip = () => router.push("/auth");
-  const handleNext = () => router.push("/splash2");
+  const handleSkip = () => router.push("/auth/auth");
+  const handleNext = () => router.push("/splash/splash2");
 
   return (
     <View style={styles.container}>

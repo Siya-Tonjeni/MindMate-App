@@ -6,7 +6,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function SplashScreen3() {
   const handleGoToAuth = () => {
-    router.push("/auth");
+    router.push("/auth/auth");
   };
 
   return (
