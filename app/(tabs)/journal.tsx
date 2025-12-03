@@ -5,7 +5,7 @@ export default function TabTwoScreen() {
   return (
     <>
     <View style={styles.container}>
-      <Text style={styles.text}>MindMate Explore</Text>
+      <Text style={styles.text}>Journal</Text>
     </View>
     </>
 

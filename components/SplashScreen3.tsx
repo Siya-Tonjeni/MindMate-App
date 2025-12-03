@@ -90,10 +90,10 @@ const styles = StyleSheet.create({
     // marginTop: 30,
   },
   brain: {
-    width: 127,
-    height: 127,
+    width: 250,
+    height: 250,
     position: "absolute",
-    left: 266,
+    left: 180,
     top: 200,
   },
   glassCard: {

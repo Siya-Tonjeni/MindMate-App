@@ -89,11 +89,11 @@ const styles = StyleSheet.create({
     height: 300,
   },
   illustration: {
-    width: 140,
-    height: 140,
+    width: 250,
+    height: 250,
     position: "absolute",
-    left: 260,
-    top: 215,
+    left: 180,
+    top: 200,
   },
   glassCard: {
     position: "absolute",

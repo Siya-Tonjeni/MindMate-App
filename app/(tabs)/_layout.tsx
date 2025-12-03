@@ -56,7 +56,7 @@ export default function TabLayout() {
             borderTopWidth: 0,
           },
 
-          tabBarActiveTintColor: tint,
+          tabBarActiveTintColor: "#A8E6CF",
           tabBarInactiveTintColor:
             colorScheme === "dark" ? "rgba(255,255,255,0.5)" : "#777",
 
@@ -78,11 +78,11 @@ export default function TabLayout() {
         />
 
         <Tabs.Screen
-          name="explore"
+          name="journal"
           options={{
-            title: "Explore",
+            title: "Journal",
             tabBarIcon: ({ color }) => (
-              <IconSymbol size={26} name="paperplane.fill" color={color} />
+              <IconSymbol size={26} name="calendar" color={color} />
             ),
           }}
         />

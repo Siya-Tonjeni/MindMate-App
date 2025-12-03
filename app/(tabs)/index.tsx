@@ -90,7 +90,7 @@ const loadMood = async () => {
             </View>
 
             {/* link to profile */}
-            <TouchableOpacity style={styles.avatarWrap} onPress={() => router.push("/splash/splash2")}> 
+            <TouchableOpacity style={styles.avatarWrap} onPress={() => router.push("/(tabs)/profile")}> 
               {/* user profile picture */}
               <Image source={require("../../assets/images/profile-picture.png")} style={styles.avatar} />
             </TouchableOpacity>
