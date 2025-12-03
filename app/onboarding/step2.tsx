@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
@@ -144,6 +145,13 @@ export default function OnboardingStep2() {
       <TouchableOpacity
   style={styles.emotionButton}
   onPress={() => {
+    AsyncStorage.setItem(
+      "userMood",
+      JSON.stringify({
+        label: moods[index].label,
+        image: moods[index].image,
+      })
+    );
     Animated.sequence([
       Animated.timing(scaleAnim, {
         toValue: 1.15,
@@ -173,7 +181,7 @@ export default function OnboardingStep2() {
         useNativeDriver: true,
       }),
     ]).start(() => {
-      router.push("/home");
+      router.push("/");
     });
   }}
 >

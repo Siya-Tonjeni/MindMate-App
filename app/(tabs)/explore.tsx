@@ -1,13 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import AuthScreen from "../auth/auth";
 
 export default function TabTwoScreen() {
   return (
     <>
     <View style={styles.container}>
-      {/* <Text style={styles.text}>MindMate Explore</Text> */}
-      <AuthScreen/>
+      <Text style={styles.text}>MindMate Explore</Text>
     </View>
     </>
 
@@ -23,5 +21,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 24,
     fontWeight: "600",
+    color: "#f3f3f3"
   },
 });

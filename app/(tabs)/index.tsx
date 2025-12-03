@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useState, useRef, useEffect } from "react";
 import {
   SafeAreaView,
   View,
@@ -23,6 +24,31 @@ export default function HomePage(): JSX.Element {
   const [mood, setMood] = useState("HAPPY");
   const [period, setPeriod] = useState<Period>("Week");
   const scaleAnim = useRef(new Animated.Value(1)).current;
+
+const [moodImage, setMoodImage] = useState(require("../../assets/images/emotions/happy.png"));
+
+const pulseAnim = useRef(new Animated.Value(1)).current;
+
+useEffect(() => {
+  loadMood();
+}, []);
+
+const loadMood = async () => {
+  const savedMood = await AsyncStorage.getItem("userMood");
+
+  if (savedMood) {
+    const parsed = JSON.parse(savedMood);
+    setMood(parsed.label);
+    setMoodImage(parsed.image);
+
+    // pulse animation
+    Animated.sequence([
+      Animated.timing(pulseAnim, { toValue: 1.1, duration: 150, useNativeDriver: true }),
+      Animated.timing(pulseAnim, { toValue: 1, duration: 150, useNativeDriver: true }),
+    ]).start();
+  }
+};
+
 
   // Dummy data for chart (7 days)
   const sampleBars = [
@@ -66,27 +92,47 @@ export default function HomePage(): JSX.Element {
             {/* link to profile */}
             <TouchableOpacity style={styles.avatarWrap} onPress={() => router.push("/splash/splash2")}> 
               {/* user profile picture */}
-              <Image source={require("../../assets/images/logo.png")} style={styles.avatar} />
+              <Image source={require("../../assets/images/profile-picture.png")} style={styles.avatar} />
             </TouchableOpacity>
           </View>
 
-          {/* Mood badge + Brain */}
-          <View style={styles.moodRow}>
-            <Animated.View style={[styles.moodBadgeWrap, { transform: [{ scale: scaleAnim }] }]}>
-              <TouchableOpacity onPress={onMoodPress} activeOpacity={0.9}>
-                <BlurView intensity={60} tint="light" style={styles.moodBadge}>
-                  <Text style={styles.moodSmall}>Mood Today</Text>
-                  <Text style={styles.moodBig}>{mood}</Text>
-                </BlurView>
-              </TouchableOpacity>
-            </Animated.View>
+          {/* --- Mood Check-In Summary Section --- */}
+<View style={styles.checkinSection}>
+  <View style={styles.checkinHeaderRow}>
+    <Text style={styles.checkinTitle}>Today’s Check-In</Text>
+    <TouchableOpacity onPress={() => router.push("/onboarding/step2")}>
+      <Text style={styles.changeMoodText}>Update</Text>
+    </TouchableOpacity>
+  </View>
 
-            <Image
-              source={require("../../assets/images/happy 1.png")}
-              style={styles.brain}
-              resizeMode="contain"
-            />
-          </View>
+  <View style={styles.checkinCard}>
+    <BlurView intensity={50} tint="light" style={styles.checkinGlass}>
+
+      <View style={styles.checkinLeft}>
+        <Text style={styles.checkinLabel}>You feel</Text>
+        <Animated.Text 
+          style={[
+            styles.checkinMood,
+            { transform: [{ scale: pulseAnim }] }
+          ]}
+        >
+          {mood}
+        </Animated.Text>
+      </View>
+
+      <Animated.Image
+        source={moodImage}
+        resizeMode="contain"
+        style={[
+          styles.checkinImage,
+          { transform: [{ scale: pulseAnim }] }
+        ]}
+      />
+      
+    </BlurView>
+  </View>
+</View>
+
 
           {/* Mood Tracker Card */}
           <BlurView intensity={50} tint="light" style={styles.card}>
@@ -212,13 +258,13 @@ const styles = StyleSheet.create({
   avatarWrap: {
     width: 52,
     height: 52,
-    borderRadius: 12,
+    borderRadius: 50,
     overflow: "hidden",
     backgroundColor: "rgba(255,255,255,0.6)",
     justifyContent: "center",
     alignItems: "center",
   },
-  avatar: { width: 36, height: 36 },
+  avatar: { width: 50, height: 50, borderRadius: 50,},
 
   moodRow: {
     width: "100%",
@@ -257,6 +303,71 @@ const styles = StyleSheet.create({
     height: 200, 
     alignSelf: "flex-end" 
   },
+
+  checkinSection: {
+    marginTop: 20,
+    paddingHorizontal: 20,
+  },
+  
+  checkinHeaderRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  
+  checkinTitle: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#263A4F",
+  },
+  
+  changeMoodText: {
+    color: "#4A90E2",
+    fontWeight: "600",
+    fontSize: 15,
+  },
+  
+  checkinCard: {
+    width: "100%",
+    borderRadius: 20,
+    overflow: "hidden",
+    shadowColor: "#000",
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  
+  checkinGlass: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 10,
+    backgroundColor: "rgba(255,255,255,0.1)",
+  },
+  
+  checkinLeft: {
+    flexDirection: "column",
+  },
+  
+  checkinLabel: {
+    fontSize: 14,
+    color: "#3A4B5C",
+    opacity: 0.7,
+  },
+  
+  checkinMood: {
+    fontSize: 32,
+    fontWeight: "800",
+    color: "#263A4F",
+    marginTop: -5,
+  },
+  
+  checkinImage: {
+    width: 150,
+    height: 150,
+  },
+  
 
   card: {
     marginTop: 10,
