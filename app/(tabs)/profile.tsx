@@ -87,22 +87,6 @@ const loadMood = async () => {
 const styles = StyleSheet.create({
   container: { flex: 1, paddingTop: 60, paddingHorizontal: 25 },
 
-  backButton: {
-    flexDirection: "row",
-    marginBottom: 10,
-    alignItems: "center",
-  },
-  backIcon: {
-    fontSize: 30,
-    color: "#2C3E50",
-    marginRight: 6,
-  },
-  backText: {
-    fontSize: 16,
-    color: "#2C3E50",
-    fontWeight: "600",
-  },
-
   header: {
     fontSize: 34,
     fontWeight: "700",

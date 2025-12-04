@@ -1,195 +1,120 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { BlurView } from "expo-blur";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Image, Platform, SafeAreaView, ScrollView} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { router } from "expo-router";
-import React, { useRef, useState } from "react";
-import {
-    Animated,
-    Image,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-    Platform
-} from "react-native";
+import { Slider } from "@miblanchard/react-native-slider"; // Beautiful smooth slider
+import { useRouter } from "expo-router";
+import { BlurView } from "expo-blur";
 
 export default function OnboardingStep2() {
-  const moods = [
-    {
-      label: "HAPPY",
-      image: require("../../assets/images/emotions/happy.png"),
-    },
-    {
-      label: "SAD",
-      image: require("../../assets/images/emotions/sad.png"),
-    },
-    {
-      label: "CALM",
-      image: require("../../assets/images/emotions/calm.png"),
-    },
-    {
-      label: "ANXIOUS",
-      image: require("../../assets/images/emotions/anxious.png"),
-    },
-    {
-      label: "NEUTRAL",
-      image: require("../../assets/images/emotions/neutral.png"),
-    },
-    {
-      label: "INLOVE",
-      image: require("../../assets/images/emotions/inlove.png"),
-    },
-    {
-      label: "TIRED",
-      image: require("../../assets/images/emotions/tired.png"),
-    },
-    {
-      label: "INSPIRED",
-      image: require("../../assets/images/emotions/inspired.png"),
-    },
-    {
-      label: "ANGRY",
-      image: require("../../assets/images/emotions/angry.png"),
-    },
-  ];
+  const router = useRouter();
 
-  const [index, setIndex] = useState(0);
+  const [data, setData] = useState({
+    overwhelmed: 0,
+    sleep: 0,
+    overthink: 0,
+    isolated: 0,
+  });
 
-  const nextMood = () => {
-    setIndex((prev) => (prev + 1) % moods.length);
+  const labels = ["Never", "Rarely", "Sometimes", "Often", "Always"];
+
+  const handleChange = (key: string, val: number | number[]) => {
+    setData({ ...data, [key]: Array.isArray(val) ? val[0] : val });
   };
-
-  const prevMood = () => {
-    setIndex((prev) => (prev - 1 + moods.length) % moods.length);
-  };
-
-  const scaleAnim = useRef(new Animated.Value(1)).current;
-  const shakeAnim = useRef(new Animated.Value(0)).current;
-
 
   return (
     <LinearGradient
-      colors={["#C8E5E9", "#A5C7E2", "#7FA0D6"]}
+      colors={["#D1F3E3", "#A5D4F9"]}
       style={styles.container}
     >
-        <BlurView intensity={18} tint="light" style={StyleSheet.absoluteFill} />
+      {/* Top content */}
+      <View style={styles.top}>
 
-        {/* Top content */}
-        <View style={styles.top}>
-
-  {/* Back Button */}
-  <TouchableOpacity
-    style={styles.backButton}
-    onPress={() => router.back()}
-    accessibilityRole="button"
-  >
-    <View style={styles.backCircle}>
-      <Text style={styles.backChevron}>‹</Text>
-    </View>
-    <Text style={styles.backText}>Back</Text>
-  </TouchableOpacity>
-
-  {/* Step indicator */}
-  <View style={styles.stepBadge}>
-    <Text style={styles.stepText}>2 OF 3</Text>
+{/* Back Button */}
+<TouchableOpacity
+  style={styles.backButton}
+  onPress={() => router.back()}
+  accessibilityRole="button"
+>
+  <View style={styles.backCircle}>
+    <Text style={styles.backChevron}>‹</Text>
   </View>
+  <Text style={styles.backText}>Back</Text>
+</TouchableOpacity>
+
+{/* Step indicator */}
+<View style={styles.stepBadge}>
+  <Text style={styles.stepText}>3 OF 3</Text>
+</View>
 
 </View>
 
+      {/* Brain Illustration */}
+      <Image
+        source={require("../../assets/images/calm.png")} // Replace with your image
+        style={styles.brain}
+        resizeMode="contain"
+      />
 
-      {/* Header */}
-      <Text style={styles.title}>How are you</Text>
-      <Text style={styles.title}>feeling today?</Text>
+      {/* Title */}
+      <Text style={styles.title}>How often do{"\n"}you experience{"\n"}the following?</Text>
 
-      {/* Brain Image */}
-    <View style={styles.brainContainer}>
-        <View style={styles.brainWrapper}>
-            <Animated.View
-            style={{
-                width: "100%",
-                height: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-                transform: [
-                { scale: scaleAnim },
-                {
-                    translateX: shakeAnim.interpolate({
-                    inputRange: [-1, 1],
-                    outputRange: [-12, 12],
-                    }),
-                },
-                ],
-            }}
-            >
-            <Image
-                source={moods[index].image}
-                resizeMode="contain"
-                style={{ width: "100%", height: "100%" }}
+      {/* Questions */}
+      <SafeAreaView style={styles.safe}>
+      <ScrollView contentContainerStyle={styles.scroll}>
+      <View style={styles.list}>
+        {[
+          { key: "overwhelmed", label: "I feel overwhelmed" },
+          { key: "sleep", label: "I find it hard to sleep" },
+          { key: "overthink", label: "I overthink often" },
+          { key: "isolated", label: "I feel isolated" },
+        ].map(item => (
+          <BlurView intensity={40} tint="light" style={styles.card} key={item.key}>
+            <Text style={styles.question}>{item.label}</Text>
+
+            <Slider
+              value={data[item.key]}
+              onValueChange={val => handleChange(item.key, val)}
+              minimumValue={0}
+              maximumValue={4}
+              step={1}
+              thumbStyle={styles.thumb}
+              trackStyle={styles.track}
             />
-            </Animated.View>
-        </View>
-    </View>
 
-      {/* Arrows */}
-      <View style={styles.arrowsRow}>
-        <TouchableOpacity style={styles.arrowBtn} onPress={prevMood}>
-          <Text style={styles.arrowText}>◀</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.arrowBtn} onPress={nextMood}>
-          <Text style={styles.arrowText}>▶</Text>
-        </TouchableOpacity>
+            <View style={styles.labelRow}>
+              {labels.map((t, i) => (
+                <Text key={i} style={styles.label}>
+                  {t}
+                </Text>
+              ))}
+            </View>
+          </BlurView>
+        ))}
       </View>
 
-      {/* Glass mood button */}
-      <TouchableOpacity
-  style={styles.emotionButton}
-  onPress={() => {
-    AsyncStorage.setItem(
-      "userMood",
-      JSON.stringify({
-        label: moods[index].label,
-        image: moods[index].image,
-      })
-    );
-    Animated.sequence([
-      Animated.timing(scaleAnim, {
-        toValue: 1.15,
-        duration: 180,
-        useNativeDriver: true,
-      }),
-      Animated.parallel([
-        Animated.timing(shakeAnim, {
-          toValue: 1,
-          duration: 90,
-          useNativeDriver: true,
-        }),
-        Animated.timing(shakeAnim, {
-          toValue: -1,
-          duration: 90,
-          useNativeDriver: true,
-        }),
-      ]),
-      Animated.timing(shakeAnim, {
-        toValue: 0,
-        duration: 60,
-        useNativeDriver: true,
-      }),
-      Animated.timing(scaleAnim, {
-        toValue: 1,
-        duration: 180,
-        useNativeDriver: true,
-      }),
-    ]).start(() => {
-      router.push("/");
-    });
-  }}
->
-  {/* <BlurView intensity={60} tint="light" style={styles.glassButton}> */}
-    <Text style={styles.moodLabel}>{moods[index].label}</Text>
-  {/* </BlurView> */}
-</TouchableOpacity>
+      
 
+      {/* Next Button */}
+      <TouchableOpacity
+        style={styles.nextButton}
+        onPress={() => router.replace("/onboarding/step3")}
+      >
+        <LinearGradient
+          colors={["#A6C6F9", "#7CA8F3"]}
+          style={styles.nextGradient}
+        >
+          <Text style={styles.nextText}>Next</Text>
+        </LinearGradient>
+      </TouchableOpacity>
+      </ScrollView>
+      </SafeAreaView>
+
+      {/* small decorative circles */}
+      <View pointerEvents="none" style={styles.decorative}>
+        <View style={[styles.dot, styles.dotPeach]} />
+        <View style={[styles.dot, styles.dotYellow]} />
+        <View style={[styles.dot, styles.dotPurple]} />
+      </View>
     </LinearGradient>
   );
 }
@@ -197,13 +122,16 @@ export default function OnboardingStep2() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 20,
   },
+  safe: { flex: 1 },
+  scroll: { padding: 20, paddingBottom: 120 },
   top: {
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingTop: Platform.OS === "android" ? 40 : 20,
+    paddingTop: Platform.OS === "android" ? 26 : 15,
     paddingHorizontal: 20,
     zIndex: 10,
   },
@@ -247,100 +175,130 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
 
-  title: {
-    fontSize: 32,
-    fontWeight: "700",
-    color: "#263A4F",
-    textAlign: "center",
+  progressBox: {
+    backgroundColor: "rgba(74,144,226,0.25)",
+    paddingHorizontal: 15,
+    paddingVertical: 6,
+    borderRadius: 20,
+  },
+  progressText: {
+    fontWeight: "600",
+    opacity: 0.7,
   },
 
-  brainContainer: {
-    marginTop: 20,
-    width: 350,
-    height: 350,
-    alignItems: "center",
-    justifyContent: "center",
-    marginLeft: "auto",
-    marginRight: "auto"
-  },
-
-  brainWrapper: {
-    width: 350, // keep the brain visible but not too big
-    height: 350,
-    justifyContent: "center",
-    alignItems: "center",
-  
-    // makes the wrapper visible even before animation
-    backgroundColor: "rgba(255, 255, 255, 0.15)", 
-    borderRadius: 200,
-  
-    // subtle shadow depth
-    elevation: 6,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 4 },
-  },  
-  
-  brainImage: {
-    width: "100%",
-    height: "100%",
-  },
-
-  arrowsRow: {
-    flexDirection: "row",
-    width: "60%",
-    justifyContent: "space-between",
-    marginTop: -30,
-    marginLeft: "auto",
-    marginRight: "auto"
-  },
-
-  arrowBtn: {
-    width: 45,
-    height: 45,
-    borderRadius: 22,
-    backgroundColor: "rgba(255,255,255,0.4)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  arrowText: {
-    fontSize: 22,
-    color: "#2C3E50",
-  },
-
-  glassButton: {
+  brain: {
     width: 200,
-    paddingVertical: 14,
-    borderRadius: 22,
-    marginTop: 40,
-    alignItems: "center",
+    height: 200,
+    alignSelf: "center",
+    // marginTop: 20,
+  },
+
+  title: {
+    fontSize: 30,
+    fontWeight: "800",
+    textAlign: "center",
+    color: "#2C3E50",
+    // marginTop: 10,
+  },
+
+  list: {
+    margin: 20,
+    gap: 18,
+  },
+
+  card: {
+    padding: 18,
+    borderRadius: 30,
+    overflow: "hidden",
     backgroundColor: "rgba(255,255,255,0.25)",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.45)",
   },
 
-  moodLabel: {
-    fontSize: 20,
+  question: {
+    fontSize: 17,
     fontWeight: "700",
-    color: "#f3f3f3",
+    marginBottom: 10,
+    color: "#1B1B1B",
   },
-  emotionButton: {
-    marginTop: 50,
-    backgroundColor: "rgba(186, 219, 225, 0.57)",
-    paddingHorizontal: 50,
-    paddingVertical: 15,
-    borderRadius: 25,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "50%",
-    margin: "auto",
 
-    // subtle shadow depth
-    elevation: 6,
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 20,
-    shadowOffset: { width: 0, height: 9 },
+  track: {
+    height: 6,
+    borderRadius: 5,
+    backgroundColor: "rgba(255,255,255,0.4)",
+  },
+
+  thumb: {
+    width: 22,
+    height: 22,
+    backgroundColor: "#fff",
+    borderRadius: 11,
+    elevation: 4,
+  },
+
+  labelRow: {
+    marginTop: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  label: {
+    fontSize: 11,
+    opacity: 0.7,
+  },
+
+  nextButton: {
+    marginTop: 30,
+    alignSelf: "center",
+    width: "80%",
+    borderRadius: 40,
+    overflow: "hidden",
+  },
+
+  nextGradient: {
+    paddingVertical: 16,
+    borderRadius: 40,
+    alignItems: "center",
+  },
+
+  nextText: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "white",
+  },
+
+  decorative: {
+    position: "absolute",
+    right: 26,
+    top: 160,
+    zIndex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  dot: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    marginVertical: 12,
+    opacity: 0.95,
+  },
+  dotPeach: {
+    backgroundColor: "#F7A9A0",
+  },
+  dotYellow: {
+    position: "absolute",
+    right: 300,
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: "#F7E3A0",
+    marginVertical: 6,
+  },
+  dotPurple: {
+    position: "absolute",
+    top: 120,
+    right: 40,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: "#B89BF0",
+    marginVertical: 6,
   },
 });

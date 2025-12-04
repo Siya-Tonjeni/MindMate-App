@@ -100,7 +100,7 @@ const loadMood = async () => {
 <View style={styles.checkinSection}>
   <View style={styles.checkinHeaderRow}>
     <Text style={styles.checkinTitle}>Today’s Check-In</Text>
-    <TouchableOpacity onPress={() => router.push("/onboarding/step2")}>
+    <TouchableOpacity onPress={() => router.push("/onboarding/step3")}>
       <Text style={styles.changeMoodText}>Update</Text>
     </TouchableOpacity>
   </View>

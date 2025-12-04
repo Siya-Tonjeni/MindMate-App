@@ -27,8 +27,11 @@ MindMate focuses on promoting mindfulness and mental clarity through simple, int
 - React Navigation  
 
 ### **Backend**
-- Firebase Authentication  
-- Firebase Firestore  
+- Node.js
+- Express
+- PostgreSQL
+- Prisma
+- JWT Auth
 
 ---
 

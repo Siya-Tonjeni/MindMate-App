@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
   safe: {
     flex: 1,
     backgroundColor: "#A8E6CF",
+    // paddingTop: 20,
   },
   gradient: {
     ...StyleSheet.absoluteFillObject,
