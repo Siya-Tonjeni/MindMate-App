@@ -20,6 +20,7 @@ const MAPPING = {
   'chevron.right': 'chevron-right',
   'person':'person',
   'calendar' : 'edit-calendar',
+  'target' : 'branding-watermark',
 } as IconMapping;
 
 /**
