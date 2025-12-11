@@ -1,6 +1,6 @@
-import { Tabs } from "expo-router";
+import { router, Tabs } from "expo-router";
 import React from "react";
-import { View, Platform, StyleSheet } from "react-native";
+import { View, Platform, StyleSheet, TouchableOpacity } from "react-native";
 import { BlurView } from "expo-blur";
 import { HapticTab } from "@/components/haptic-tab";
 import { IconSymbol } from "@/components/ui/icon-symbol";
@@ -33,26 +33,24 @@ export default function TabLayout() {
 
           tabBarStyle: {
             position: "absolute",
-            bottom: 25,
+            bottom: 0,
             left: 20,
             right: 20,
-            height: 70,
+            height: 80,           
             borderRadius: 35,
-
-            // Transparent background so BlurView shows through
+            overflow: "visible",  
             backgroundColor: "rgba(255,255,255,0.12)",
-
-            overflow: "hidden",
-            borderCurve: "continuous",
-
-            // Modern shadow
+            alignContent: "center",
+          
+            // soften edges on Android/iOS
             shadowColor: "#000",
             shadowOffset: { width: 0, height: 8 },
             shadowOpacity: 0.15,
             shadowRadius: 20,
             elevation: 15,
-
-            paddingBottom: Platform.OS === "ios" ? 20 : 10,
+          
+            // room for iOS safe area + visual spacing
+            paddingBottom: Platform.OS === "ios" ? 22 : 10,
             borderTopWidth: 0,
           },
 
@@ -88,6 +86,24 @@ export default function TabLayout() {
         />
 
         <Tabs.Screen
+          name="add"
+          options={{
+            title: "",
+            tabBarButton: (props) => (
+              <TouchableOpacity
+                {...props}
+                onPress={() => router.push("/add")}
+                style={styles.addButtonContainer}
+              >
+                <View style={styles.addButton}>
+                  <IconSymbol name="plus" size={26} color="#fff" />
+                </View>
+              </TouchableOpacity>
+            ),
+          }}
+        />
+
+        <Tabs.Screen
           name="goals"
           options={{
             title: "My Goals",
@@ -110,3 +126,32 @@ export default function TabLayout() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  addButtonContainer: {
+    position: "absolute",
+    top: -34,           
+    width: 66,
+    height: 66,
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 999,        
+    elevation: 20,       
+  },
+
+  addButton: {
+    width: 66,
+    height: 66,
+    borderRadius: 38,
+    backgroundColor: "rgb(79, 143, 246)",
+    alignItems: "center",
+    justifyContent: "center",
+
+    // depth so it looks floating
+    shadowColor: "#000",
+    shadowOpacity: 0.24,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 20,
+  }, 
+});

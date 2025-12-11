@@ -14,7 +14,8 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { BlurView } from "expo-blur";
-import { router } from "expo-router"; // remove if you don't use expo-router
+import { router } from "expo-router"; 
+import { IconSymbol } from "@/components/ui/icon-symbol";
 
 const { width } = Dimensions.get("window");
 
@@ -94,44 +95,44 @@ const loadMood = async () => {
               {/* user profile picture */}
               <Image source={require("../../assets/images/profile-picture.png")} style={styles.avatar} />
             </TouchableOpacity>
+            <IconSymbol  size={26} name="bell" color="gray" />
           </View>
 
           {/* --- Mood Check-In Summary Section --- */}
-<View style={styles.checkinSection}>
-  <View style={styles.checkinHeaderRow}>
-    <Text style={styles.checkinTitle}>Today’s Check-In</Text>
-    <TouchableOpacity onPress={() => router.push("/onboarding/step3")}>
-      <Text style={styles.changeMoodText}>Update</Text>
-    </TouchableOpacity>
-  </View>
+        <View style={styles.checkinSection}>
+         <View style={styles.checkinHeaderRow}>
+          <Text style={styles.checkinTitle}>Today’s Check-In</Text>
+          <TouchableOpacity onPress={() => router.push("/onboarding/step3")}>
+           <Text style={styles.changeMoodText}>Update</Text>
+          </TouchableOpacity>
+        </View>
 
-  <View style={styles.checkinCard}>
-    <BlurView intensity={50} tint="light" style={styles.checkinGlass}>
+        <View style={styles.checkinCard}>
+         <BlurView intensity={50} tint="light" style={styles.checkinGlass}>
+            <View style={styles.checkinLeft}>
+              <Text style={styles.checkinLabel}>You feel</Text>
+              <Animated.Text 
+                style={[
+                styles.checkinMood,
+                { transform: [{ scale: pulseAnim }] }
+                ]}
+                >
+                {mood}
+              </Animated.Text>
+            </View>
 
-      <View style={styles.checkinLeft}>
-        <Text style={styles.checkinLabel}>You feel</Text>
-        <Animated.Text 
-          style={[
-            styles.checkinMood,
-            { transform: [{ scale: pulseAnim }] }
-          ]}
-        >
-          {mood}
-        </Animated.Text>
-      </View>
-
-      <Animated.Image
-        source={moodImage}
-        resizeMode="contain"
-        style={[
-          styles.checkinImage,
-          { transform: [{ scale: pulseAnim }] }
-        ]}
-      />
+            <Animated.Image
+            source={moodImage}
+            resizeMode="contain"
+            style={[
+              styles.checkinImage,
+              { transform: [{ scale: pulseAnim }] }
+            ]}
+            />
       
-    </BlurView>
-  </View>
-</View>
+          </BlurView>
+        </View>
+      </View>
 
 
           {/* Mood Tracker Card */}
@@ -205,7 +206,7 @@ const loadMood = async () => {
             <View style={styles.recentFooter}>
               <Text style={styles.recentDate}>Today • 10:42</Text>
               {/* journal/1 */}
-              <TouchableOpacity onPress={() => router.push("/splash/splash2")}>
+              <TouchableOpacity onPress={() => router.push("/(tabs)/journal")}>
                 <Text style={styles.readMore}>Read</Text>
               </TouchableOpacity>
             </View>
@@ -213,28 +214,6 @@ const loadMood = async () => {
 
           <View style={{ height: 80 }} />
         </ScrollView>
-
-        {/* Floating New Entry button + bottom nav placeholder */}
-        <View style={styles.footerWrap}>
-            {/* journal/new */}
-          <TouchableOpacity style={styles.fab} onPress={() => router.push("/splash/splash2")}>
-            <Text style={styles.fabText}>+</Text>
-          </TouchableOpacity>
-
-          <View style={styles.bottomNav}>
-            <TouchableOpacity style={styles.navItem} onPress={() => router.push("/")}>
-              <Text style={styles.navTextActive}>Home</Text>
-            </TouchableOpacity>
-            {/* mood */}
-            <TouchableOpacity style={styles.navItem} onPress={() => router.push("/splash/splash2")}>
-              <Text style={styles.navText}>Mood</Text>
-            </TouchableOpacity>
-            {/* profile */}
-            <TouchableOpacity style={styles.navItem} onPress={() => router.push("/splash/splash2")}>
-              <Text style={styles.navText}>Profile</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
       </SafeAreaView>
     </LinearGradient>
   );
