@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from "react-native";
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { IconSymbol } from "@/components/ui/icon-symbol";
+import { router } from "expo-router"; 
 
 export default function JournalScreen() {
   type Journal = {
@@ -79,15 +80,19 @@ export default function JournalScreen() {
       <View style={styles.header}>
         <View>
           <Text style={styles.title}>My Journal</Text>
-          <TouchableOpacity style={styles.addButton} onPress={addJournal}>
-            <IconSymbol size={26} name='plus' color="white" />
-            <Text style={styles.addButtonText}>New Entry</Text>
-          </TouchableOpacity>
         </View>
-        <IconSymbol  size={26} name="bell" color="gray" />
+        <IconSymbol  style={styles.notificationBell} size={26} name="bell" color="gray" />
+        {/* link to profile */}
+        <TouchableOpacity style={styles.avatarWrap} onPress={() => router.push("/(tabs)/profile")}> 
+              {/* user profile picture */}
+              <Image source={require("../../assets/images/profile-picture.png")} style={styles.avatar} />
+        </TouchableOpacity>
       </View>
       
-
+      <TouchableOpacity style={styles.addButton} onPress={addJournal}>
+            <IconSymbol size={26} name='plus' color="white" />
+            <Text style={styles.addButtonText}>New Entry</Text>
+      </TouchableOpacity>
       <FlatList
         data={journals}
         keyExtractor={(item) => item.id}
@@ -105,9 +110,11 @@ const styles = StyleSheet.create({
     paddingTop: 80,
   },
   header: {
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 10,
   },
   title: {
     fontSize: 32,
@@ -134,6 +141,23 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     marginLeft: 8,
   },
+
+  notificationBell: {
+    position: "relative",
+    left: 45,
+  },
+
+  avatarWrap: {
+    width: 52,
+    height: 52,
+    borderRadius: 50,
+    overflow: "hidden",
+    backgroundColor: "rgba(255,255,255,0.6)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  avatar: { width: 50, height: 50, borderRadius: 50,},
+
   cardContainer: {
     marginBottom: 16,
   },

@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { IconSymbol } from "@/components/ui/icon-symbol";
+import { router } from "expo-router";
 
 export default function MyGoalsScreen() {
   const sections = [
@@ -46,7 +46,12 @@ export default function MyGoalsScreen() {
           <Text style={styles.headerTitle}>My Goals</Text>
           <Text style={styles.headerDate}>Today, {new Date().toLocaleDateString()}</Text>
         </View>
-        <IconSymbol  size={26} name="bell" color="gray" />
+        <IconSymbol  style={styles.notificationBell} size={26} name="bell" color="gray" />
+        {/* link to profile */}
+        <TouchableOpacity style={styles.avatarWrap} onPress={() => router.push("/(tabs)/profile")}> 
+          {/* user profile picture */}
+          <Image source={require("../../assets/images/profile-picture.png")} style={styles.avatar} />
+        </TouchableOpacity>
       </View>
 
       {/* Sections */}
@@ -84,9 +89,11 @@ const styles = StyleSheet.create({
     paddingTop: 80,
   },
   header: {
+    width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 10,
   },
   headerTitle: {
     fontSize: 30,
@@ -98,6 +105,22 @@ const styles = StyleSheet.create({
     color: "#6b7280",
     marginTop: 2,
   },
+
+  notificationBell: {
+    position: "relative",
+    left: 60,
+  },
+
+  avatarWrap: {
+    width: 52,
+    height: 52,
+    borderRadius: 50,
+    overflow: "hidden",
+    backgroundColor: "rgba(255,255,255,0.6)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  avatar: { width: 50, height: 50, borderRadius: 50,},
   sectionContainer: {
     flexDirection: "row",
     marginBottom: 35,

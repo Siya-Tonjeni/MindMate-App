@@ -89,13 +89,15 @@ const loadMood = async () => {
               <Text style={styles.welcomeSmall}>Welcome to MindMate,</Text>
               <Text style={styles.welcomeLarge}>Siyamtanda</Text>
             </View>
+            
+            {/* Notification */}
+            <IconSymbol style={styles.notificationBell}  size={26} name="bell" color="gray" />
 
             {/* link to profile */}
             <TouchableOpacity style={styles.avatarWrap} onPress={() => router.push("/(tabs)/profile")}> 
               {/* user profile picture */}
               <Image source={require("../../assets/images/profile-picture.png")} style={styles.avatar} />
             </TouchableOpacity>
-            <IconSymbol  size={26} name="bell" color="gray" />
           </View>
 
           {/* --- Mood Check-In Summary Section --- */}
@@ -233,6 +235,11 @@ const styles = StyleSheet.create({
   },
   welcomeSmall: { color: "#3b5560", fontSize: 14, opacity: 0.85 },
   welcomeLarge: { color: "#122B33", fontSize: 22, fontWeight: "800", marginTop: 2 },
+
+  notificationBell: {
+    position: "relative",
+    left: 50,
+  },
 
   avatarWrap: {
     width: 52,
